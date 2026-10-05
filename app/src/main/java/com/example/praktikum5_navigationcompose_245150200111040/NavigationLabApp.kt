@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.praktikum5_navigationcompose_245150200111040.ui.screen.AboutScreen
 import com.example.praktikum5_navigationcompose_245150200111040.ui.screen.DetailScreen
 import com.example.praktikum5_navigationcompose_245150200111040.ui.screen.HomeScreen
 import com.example.praktikum5_navigationcompose_245150200111040.ui.screen.ProfileScreen
@@ -25,6 +26,9 @@ fun NavigationLabApp() {
                 },
                 onOpenProfile = {
                     navController.navigate(Routes.PROFILE)
+                },
+                onOpenAbout = {
+                    navController.navigate(Routes.ABOUT)
                 }
             )
         }
@@ -33,20 +37,27 @@ fun NavigationLabApp() {
             route = Routes.DETAIL,
             arguments = listOf(
                 navArgument("studentId") {
-                    type = NavType.IntType
+                    type = NavType.StringType
                 }
             )
         ) { backStackEntry ->
-            val studentId = backStackEntry.arguments?.getInt("studentId") ?: 0
+            val studentId = backStackEntry.arguments?.getString("studentId") ?: ""
 
             DetailScreen(
                 studentId = studentId,
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                onOpenProfile = { navController.navigate(Routes.PROFILE) }
             )
         }
 
         composable(Routes.PROFILE) {
             ProfileScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Routes.ABOUT) {
+            AboutScreen(
                 onBack = { navController.popBackStack() }
             )
         }
